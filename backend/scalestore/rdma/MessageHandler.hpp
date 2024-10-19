@@ -93,15 +93,15 @@ struct MessageHandler {
    storage::Buffermanager& bm;
     // -------------------------------------------------------------------------------------
    NodeID nodeId;
-    int const aggregatedMsgAmount = 100;
+    uint64_t aggregatedMsgAmount = 100;
     std::vector<ConnectionContext> cctxs;
     std::vector<MailboxPartition> mbPartitions;
     std::atomic<uint64_t> connectedClients = 0;
     std::atomic<bool> finishedInit = false;
     PageIdManager& pageIdManager;
     double aggregatedTimeMeasure = 0;
-    double latencyMeasureResults[aggregatedMsgAmount];
-    std::atomic<uint64_t> aggregatedTimeMeasureCounter = 0;
+    double latencyMeasureResults[1000];
+    uint64_t aggregatedTimeMeasureCounter = 0;
     // -------------------------------------------------------------------------------------
    
    // -------------------------------------------------------------------------------------
