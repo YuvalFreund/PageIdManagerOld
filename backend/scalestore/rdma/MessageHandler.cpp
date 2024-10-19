@@ -524,11 +524,11 @@ try_shuffle:
             aggregatedTimeMeasureCounter++;
             if(aggregatedTimeMeasureCounter == aggregatedMsgAmount){
                 for(int i = 0; i < aggregatedTimeMeasureCounter; i++){
-                    aggregatedTimeMeasure + = latencyMeasureResults[i];
+                    aggregatedTimeMeasure += latencyMeasureResults[i];
                     std::cout<< latencyMeasureResults[i] << " ";
                 }
                 std::cout << std::endl;
-                double aggregatedResult = aggregatedTimeMeasure / aggregatedMsgAmount;
+                double aggregatedResult = aggregatedTimeMeasure / (double) aggregatedMsgAmount;
                 std::cout<<"msgtime:"<< aggregatedResult <<std::endl;
             }
         }
