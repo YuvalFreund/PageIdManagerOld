@@ -99,7 +99,7 @@ struct MessageHandler {
     std::atomic<uint64_t> connectedClients = 0;
     std::atomic<bool> finishedInit = false;
     PageIdManager& pageIdManager;
-    std::atomic<double> aggregatedTimeMeasure = 0;
+    double aggregatedTimeMeasure = 0;
     std::atomic<uint64_t> aggregatedTimeMeasureCounter = 0;
     // -------------------------------------------------------------------------------------
    
