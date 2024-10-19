@@ -519,10 +519,14 @@ try_shuffle:
         std::chrono::steady_clock::time_point beforeMessage = std::chrono::steady_clock::now();
         [[maybe_unused]]auto& createdFrameResponse = scalestore::threads::Worker::my().writeMsgSync<scalestore::rdma::CreateOrUpdateShuffledFrameResponse>(newNodeId, onTheWayUpdateRequest);
         std::chrono::steady_clock::time_point afterMessage = std::chrono::steady_clock::now();
-        if(t_i == 0 && printedTimeMeasure == false){
-            printedTimeMeasure = true;
-
-            std::cout<<"msgtime:"<<std::chrono::duration_cast<std::chrono::microseconds>(afterMessage - beforeMessage).count()<<std::endl;
+        double aggregatedMsgAmount = 100;
+        if(t_i == 0 && aggregatedTimeMeasureCounter < aggregatedMsgAmount ){
+            aggregatedTimeMeasure += std::chrono::duration_cast<std::chrono::microseconds>(afterMessage - beforeMessage).count();
+            aggregatedTimeMeasureCounter++;
+            if(aggregatedTimeMeasureCounter == aggregatedMsgAmount){
+                double aggregatedResult = aggregatedTimeMeasure / aggregatedMsgAmount;
+                std::cout<<"msgtime:"<< aggregatedResult <<std::endl;
+            }
         }
         succeededToShuffle = createdFrameResponse.accepted;
     }
