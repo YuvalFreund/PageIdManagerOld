@@ -523,7 +523,7 @@ try_shuffle:
             latencyMeasureResults[aggregatedTimeMeasureCounter] = double(std::chrono::duration_cast<std::chrono::microseconds>(afterMessage - beforeMessage).count());
             aggregatedTimeMeasureCounter++;
             if(aggregatedTimeMeasureCounter == aggregatedMsgAmount){
-                for(uint64_t i = 0; i < aggregatedTimeMeasureCounter; i++){
+                for(uint64_t i = 0; i < aggregatedMsgAmount; i++){
                     aggregatedTimeMeasure += latencyMeasureResults[i];
                     std::cout<< latencyMeasureResults[i] << " ";
                 }
