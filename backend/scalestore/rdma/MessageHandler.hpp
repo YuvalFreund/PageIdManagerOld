@@ -93,7 +93,7 @@ struct MessageHandler {
    storage::Buffermanager& bm;
     // -------------------------------------------------------------------------------------
    NodeID nodeId;
-    uint64_t aggregatedMsgAmount = 100;
+    uint64_t aggregatedMsgAmount = 200;
     std::vector<ConnectionContext> cctxs;
     std::vector<MailboxPartition> mbPartitions;
     std::atomic<uint64_t> connectedClients = 0;
