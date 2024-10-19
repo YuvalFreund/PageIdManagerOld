@@ -521,7 +521,7 @@ try_shuffle:
         std::chrono::steady_clock::time_point afterMessage = std::chrono::steady_clock::now();
         double aggregatedMsgAmount = 100;
         if(t_i == 0 && aggregatedTimeMeasureCounter < aggregatedMsgAmount ){
-            aggregatedTimeMeasure += std::chrono::duration_cast<std::chrono::microseconds>(afterMessage - beforeMessage).count();
+            aggregatedTimeMeasure += double(std::chrono::duration_cast<std::chrono::microseconds>(afterMessage - beforeMessage).count());
             aggregatedTimeMeasureCounter++;
             if(aggregatedTimeMeasureCounter == aggregatedMsgAmount){
                 double aggregatedResult = aggregatedTimeMeasure / aggregatedMsgAmount;
