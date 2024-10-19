@@ -487,7 +487,7 @@ void MessageHandler::startThread() {
 }
 
 
-bool MessageHandler::shuffleFrameAndIsLastShuffle(scalestore::threads::Worker* workerPtr){
+bool MessageHandler::shuffleFrameAndIsLastShuffle(scalestore::threads::Worker* workerPtr, [[maybe_unused]]uint64_t t_i){
 try_shuffle:
     bool succeededToShuffle;
     PageIdManager::PageShuffleJob nextJobToShuffle = pageIdManager.getNextPageShuffleJob();
@@ -516,7 +516,14 @@ try_shuffle:
         ensure(guard.frame->possession != POSSESSION::NOBODY);
         uint64_t possessorsAsUint64 = (guard.frame->possession == POSSESSION::SHARED)  ? guard.frame->possessors.shared.bitmap : guard.frame->possessors.exclusive;
         auto onTheWayUpdateRequest = *MessageFabric::createMessage<CreateOrUpdateShuffledFrameRequest>(context_.outgoing, pageId, possessorsAsUint64,guard.frame->possession, guard.frame->dirty,guard.frame->pVersion);
+        std::chrono::steady_clock::time_point beforeMessage = std::chrono::steady_clock::now();
         [[maybe_unused]]auto& createdFrameResponse = scalestore::threads::Worker::my().writeMsgSync<scalestore::rdma::CreateOrUpdateShuffledFrameResponse>(newNodeId, onTheWayUpdateRequest);
+        std::chrono::steady_clock::time_point afterMessage = std::chrono::steady_clock::now();
+        if(t_i == 0 && printedTimeMeasure == false){
+            printedTimeMeasure = true;
+
+            std::cout<<"msgtime:"<<std::chrono::duration_cast<std::chrono::microseconds>(afterMessage - beforeMessage).count()<<std::endl;
+        }
         succeededToShuffle = createdFrameResponse.accepted;
     }
     // check if manage to shuffle or retry to avoided the distributed dead lock
